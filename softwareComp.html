@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+ 
+  </head>
+  <body>
+    <ol id="cards"></ol>
+    <script>
+      const xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+          displayData(this.responseXML);
+        }
+      };
+      xhttp.open("GET", "./softwareComp.xml", true);
+      xhttp.send();
+
+      function stringToNode(html) {
+        const template = document.createElement(`template`);
+        html = html.trim();
+        template.innerHTML = html;
+        return template.content.firstChild;
+      }
+
+      function createCard(card) {
+        const content = `<li>
+  <article>
+    <h1>${card.name}</h1>
+    <h2>${card.stockSymbol}</h2>
+    <h3> ${card.domain} </h3>
+    <div>
+    <p>  ${card.id} </p>
+         <h3> ${card.name} </h3>
+    </div>
+    <div>
+    <p>  ${card.currentVersion} </p>
+       <h3> ${card.url}</h3>
+    </div>
+    <div>
+      ${card.id2} 
+        <p>  ${card.firstName} </p>
+          ${card.lastName} 
+         ${card.email} 
+       <p>  ${card.userName} </p>
+          ${card.occupation} 
+          ${card.department} 
+    </div>
+    <div>
+    <p>  ${card.ip} </p>
+          ${card.mac} 
+    </div>
+     <p> </article></p>
+</li>`;
+
+        return stringToNode(content);
+      }
+
+      function parseCard(xml) {
+        const name =
+          xml.getElementsByTagName(`name`)[0].childNodes[0].nodeValue;
+        const stockSymbol =
+          xml.getElementsByTagName(`stockSymbol`)[0].childNodes[0].nodeValue;
+          const domain =
+          xml.getElementsByTagName(`domain`)[0].childNodes[0].nodeValue;
+        const id =
+          xml.getElementsByTagName(`id`)[0].childNodes[0].nodeValue;
+          const name1 =
+          xml.getElementsByTagName(`name`)[0].childNodes[0].nodeValue;
+          const currentVersion =
+          xml.getElementsByTagName(`currentVersion`)[0].childNodes[0].nodeValue;
+          const url =
+          xml.getElementsByTagName(`url`)[0].childNodes[0].nodeValue;
+          const id1 =
+          xml.getElementsByTagName(`id`)[0].childNodes[0].nodeValue;
+          const firstName =
+          xml.getElementsByTagName(`firstName`)[0].childNodes[0].nodeValue;
+          const lastName =
+          xml.getElementsByTagName(`lastName`)[0].childNodes[0].nodeValue;
+          const email =
+          xml.getElementsByTagName(`email`)[0].childNodes[0].nodeValue;
+          const userName =
+          xml.getElementsByTagName(`userName`)[0].childNodes[0].nodeValue;
+          const occupation =
+          xml.getElementsByTagName(`occupation`)[0].childNodes[0].nodeValue;
+          const department=
+          xml.getElementsByTagName(`department`)[0].childNodes[0].nodeValue;
+          const ip =
+          xml.getElementsByTagName(`ip`)[0].childNodes[0].nodeValue;
+          const mac =
+          xml.getElementsByTagName(`mac`)[0].childNodes[0].nodeValue;
+          
+
+                 
+
+
+        return {
+          name,
+          stockSymbol,
+          domain,
+          id,
+          name1,
+          currentVersion,
+          url,
+          id1,
+          firstName,
+          lastName,
+          email,
+          userName,
+          occupation,
+          department,
+          ip,
+          mac
+
+           };
+      }
+
+      function displayData(xmlDoc) {
+        const cards = xmlDoc.getElementsByTagName(`company`);
+
+        const list = document.getElementById(`cards`);
+
+        for (let index = 0; index < cards.length; index++) {
+          const element = cards[index];
+          const parsedCard = parseCard(element);
+
+          const cardElement = createCard(parsedCard);
+          list.appendChild(cardElement);
+        }
+      }
+    </script>
+  </body>
+</html>
